@@ -2,42 +2,68 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>按鈕加分遊戲</title>
+  <title>跳動的加分按鈕</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
       font-family: sans-serif;
-      text-align: center;
-      padding-top: 100px;
+      background-color: #f0f0f0;
     }
     #score {
-      font-size: 32px;
-      margin-bottom: 20px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 28px;
     }
     #clickButton {
+      position: absolute;
       font-size: 24px;
       padding: 20px 40px;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, left 0.3s, top 0.3s;
     }
   </style>
 </head>
 <body>
 
   <div id="score">分數：0</div>
-  <button id="clickButton">點我</button>
+  <button id="clickButton">點我！</button>
 
   <script>
     let score = 0;
     let scale = 1;
-
     const button = document.getElementById("clickButton");
     const scoreDisplay = document.getElementById("score");
 
+    function moveButtonRandomly() {
+      const maxX = window.innerWidth - button.offsetWidth;
+      const maxY = window.innerHeight - button.offsetHeight;
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      button.style.left = `${randomX}px`;
+      button.style.top = `${randomY}px`;
+    }
+
     button.addEventListener("click", () => {
       score += 1;
-      scale *= 0.935; // 每次縮小 5%
+      scale *= 0.95;
+
+      // 更新分數
       scoreDisplay.textContent = `分數：${score}`;
+
+      // 縮小按鈕
       button.style.transform = `scale(${scale})`;
+
+      // 移動位置
+      moveButtonRandomly();
     });
+
+    // 初始隨機位置
+    moveButtonRandomly();
   </script>
 
 </body>
